@@ -1,0 +1,8 @@
+{
+  "name": "habu-data",
+  "description": "A system to test data management in PhoneGap",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "4.x"
+  }
+}
