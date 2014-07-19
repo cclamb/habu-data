@@ -1,8 +1,37 @@
+
+@base-background-color: #eeeeee;
+@border: #333333;
+@border-background-color: #dddddd;
+@list-background-color: #ffffff;
+
 body {
-  padding: 50px;
+  padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: @base-background-color;
 }
+
+header {
+	border: 1px solid @border;
+	border-radius: 5px;
+	background-color: @border-background-color;
+	font-style: bold;
+	font-size: larger;
+	text-align: center;
+}
+
+#element-list {
+	background-color: @list-background-color;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 10px;
+}
+
+.element-container {}
 
 a {
   color: #00B7FF;
+}
+
+footer {
+	font-size: smaller;
 }
