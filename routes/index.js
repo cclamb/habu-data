@@ -6,8 +6,8 @@ router.get('/index', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/', function(req, res) {
-  res.sendfile('index.html');
+router.get('/style', function(req, res) {
+  res.sendfile('public/stylesheets/style.css');
 });
 
 module.exports = router;
