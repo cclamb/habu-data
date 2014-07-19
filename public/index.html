@@ -29,14 +29,18 @@
     <script type="text/x-handlebars" data-template-name="index">
       <section id="element-list">
       <p>This is a small application to experiment with local in-browser data storage.  This should run in browsers as well as within Apache Cordova-based applications.</p>
+
+        {{#each}}
         <section class="element-container">
-          <div class="element-name">cottonmouth</div>
+          <div class="element-name">{{name}}</div>
           <div class="element-status"></div>
           <div class="element-actions"> load | clear</div>
           <div class="element">
-            <img src="user_images/cottonmouth.jpeg" alt="">
+            <img class="element-image" {{bind-attr src=link alt=name}}>
           </div>
         </section>
+        {{/each}}
+
       </section>
     </script>
 
@@ -46,6 +50,37 @@
         LOG_TRANSITIONS: true,
         LOG_TRANSITIONS_INTERNAL: true
       });
+
+      StorageTests.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+      StorageTests.Element = DS.Model.extend({
+        link: DS.attr('string'),
+        data: DS.attr('string'),
+        name: DS.attr('string')
+      });
+
+      StorageTests.Element.FIXTURES = [
+        {
+          id: 1,
+          link: 'user_images/cottonmouth.jpeg',
+          data: null,
+          name: 'cottonmouth'
+        },
+        {
+          id: 2,
+          link: 'user_images/sidewinder.gif',
+          data: null,
+          name: 'sidewinder'
+        }
+      ];
+
+      StorageTests.IndexRoute = Ember.Route.extend({
+        model: function() {
+          return this.store.find('element');
+        }
+      });
+
+      StorageTests.IndexController = Ember.ArrayController.extend();
 
     </script>
   </body>
