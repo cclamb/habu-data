@@ -34,6 +34,15 @@ app.use(function(req, res, next) {
 
 /// error handlers
 
+// XHR Error Handler
+app.use(function(err, req, res, next) {
+    if (req.xhr) {
+        res.send(500, {error: err.message});
+    } else {
+        next(err);
+    }
+});
+
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
