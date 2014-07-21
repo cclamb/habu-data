@@ -1,8 +1,10 @@
 
 @background-color: #eeeeee;
-@border: #333333;
+@border: #aaaaaa;
 @border-background-color: #dddddd;
 @list-background-color: #ffffff;
+@row-even-background-color: #eeeeee;
+@row-odd-background-color: #ffffff;
 
 body {
   padding: 10px;
@@ -22,10 +24,32 @@ header {
 table {
   width: 100%;
   border: 1px solid @border;
+  border-radius: 2px;
+  border-spacing: 0px;
+}
+
+tr:nth-child(even) {
+  background-color: @row-even-background-color;
+}
+
+tr:nth-child(odd) {
+  background-color: @row-odd-background-color;
 }
 
 th {
+  border-radius: 2px;
   background-color: @border-background-color;
+}
+
+td {
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+}
+
+caption {
+  caption-side: bottom;
+  padding: 10px;
+  font-size: smaller;
 }
 
 section {

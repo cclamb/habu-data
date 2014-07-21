@@ -45,7 +45,10 @@
         <tr>
           <td>{{name}}</td>
           <td></td>
-          <td> load | clear</td>
+          <td>
+            <button {{action 'load' id}}>Load...</button><br>
+            <button {{action 'clear' id}}>Clear...</button>
+          </td>
           <td>
             <img class="element-image" {{bind-attr src=link alt=name}}>
           </td>
@@ -93,7 +96,13 @@
         }
       });
 
-      StorageTests.IndexController = Ember.ArrayController.extend();
+      StorageTests.IndexController = Ember.ArrayController.extend({
+        actions: {
+          load: function(id) { alert('load: ' + id); },
+          clear: function(id) { alert('clear: ' + id); }
+        }
+
+      });
 
     </script>
   </body>
