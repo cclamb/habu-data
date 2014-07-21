@@ -1,5 +1,5 @@
 
-@base-background-color: #eeeeee;
+@background-color: #eeeeee;
 @border: #333333;
 @border-background-color: #dddddd;
 @list-background-color: #ffffff;
@@ -7,28 +7,37 @@
 body {
   padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: @base-background-color;
+  background-color: @background-color;
 }
 
 header {
-	border: 1px solid @border;
-	border-radius: 5px;
-	background-color: @border-background-color;
-	font-style: bold;
-	font-size: larger;
-	text-align: center;
+  border: 1px solid @border;
+  border-radius: 5px;
+  background-color: @border-background-color;
+  font-style: bold;
+  font-size: larger;
+  text-align: center;
 }
 
-#element-list {
-	background-color: @list-background-color;
-	border-radius: 5px;
-	padding: 10px;
-	margin: 10px;
+table {
+  width: 100%;
+  border: 1px solid @border;
+}
+
+th {
+  background-color: @border-background-color;
+}
+
+section {
+  background-color: @list-background-color;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
 }
 
 .element-image {
-	height: 100px;
-	width: 100px;
+  height: 100px;
+  width: 100px;
 }
 
 .element-container {}
@@ -38,5 +47,5 @@ a {
 }
 
 footer {
-	font-size: smaller;
+  font-size: smaller;
 }

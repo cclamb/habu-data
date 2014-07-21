@@ -27,19 +27,32 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="index">
-      <section id="element-list">
+      <section>
       <p>This is a small application to experiment with local in-browser data storage.  This should run in browsers as well as within Apache Cordova-based applications.</p>
 
+      <table>
+      <caption>This is a brief list of snakes.</caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Actions</th>
+          <th>Element</th>
+        </tr>
+      </thead>
+
         {{#each}}
-        <section class="element-container">
-          <div class="element-name">{{name}}</div>
-          <div class="element-status"></div>
-          <div class="element-actions"> load | clear</div>
-          <div class="element">
+        <tr>
+          <td>{{name}}</td>
+          <td></td>
+          <td> load | clear</td>
+          <td>
             <img class="element-image" {{bind-attr src=link alt=name}}>
-          </div>
-        </section>
+          </td>
+        </tr>
         {{/each}}
+
+      </table>
 
       </section>
     </script>
