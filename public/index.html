@@ -27,6 +27,7 @@
         </div>
         <div id="style-control">
         <button {{action switchStyle}}>Switch styling...</button>
+        <button {{action clearCss}}>Clear preloaded CSS...</button>
         </div>
       </footer>
     </script>
@@ -94,6 +95,19 @@
           var css = Ember.$('<style type="text/css"></style>').html(data);
           console.log(css);
           css.appendTo('head');
+        },
+
+        preLoadCss: function() {
+          if (localStorage['cssStore'] == null) {
+            localStorage['cssStore'] = [];
+            _.each(styleUrls, function(e) {
+              console.log(e);
+              Ember.$.get(e).then(function(css) {
+                //localStorage.getItem('cssStore').push(css);
+                console.log(css);
+              });
+            });
+          }
         }
 
       };
@@ -141,9 +155,17 @@
       });
 
       StorageTests.ApplicationController = Ember.ObjectController.extend({
+
         actions: {
+
+          clearCss: function() {
+            localStorage.removeItem('cssStore');
+
+          },
+
           switchStyle: function() { 
             Ember.$.get(styleUrls[styleIndex]).then(function(data) {
+              cssHandler.preLoadCss();
               cssHandler.loadData(data);
               // cssHandler.loadUrlJQ();
               // cssHandler.loadUrl();
@@ -151,6 +173,7 @@
             });
           }
         }
+
       });
 
     </script>
