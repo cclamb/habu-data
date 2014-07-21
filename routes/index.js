@@ -7,7 +7,7 @@ router.get('/index', function(req, res) {
 });
 
 router.get('/style', function(req, res) {
-  res.sendfile('public/stylesheets/style.css');
+  res.sendfile('public/stylesheets/alternative-style.css');
 });
 
 module.exports = router;

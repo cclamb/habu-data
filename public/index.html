@@ -67,6 +67,37 @@
 
     <script>
 
+      var styleIndex = 1,
+          styleUrls = [
+              'stylesheets/style.css',
+              'stylesheets/alternate-style.css'
+          ];
+
+      
+      var cssHandler = {
+
+        loadUrl: function() {
+          var fileReference = document.createElement('link');
+          fileReference.setAttribute('rel', 'stylesheet');
+          fileReference.setAttribute("type", "text/css");
+          fileReference.setAttribute("href", styleUrls[styleIndex]);
+          document.getElementsByTagName('head')[0].appendChild(fileReference);
+        },
+
+        loadUrlJQ: function() {
+          var url = '<link rel="stylesheet" type="text/css" href="' + styleUrls[styleIndex] + '"></link>';
+          console.log(url);
+          Ember.$(url).appendTo('head');
+        },
+
+        loadData: function(data) {
+          var css = Ember.$('<style type="text/css"></style>').html(data);
+          console.log(css);
+          css.appendTo('head');
+        }
+
+      };
+
       window.StorageTests = Ember.Application.create({
         LOG_TRANSITIONS: true,
         LOG_TRANSITIONS_INTERNAL: true
@@ -111,7 +142,14 @@
 
       StorageTests.ApplicationController = Ember.ObjectController.extend({
         actions: {
-          switchStyle: function() { alert('switch style'); }
+          switchStyle: function() { 
+            Ember.$.get(styleUrls[styleIndex]).then(function(data) {
+              cssHandler.loadData(data);
+              // cssHandler.loadUrlJQ();
+              // cssHandler.loadUrl();
+              styleIndex = (styleIndex === 0) ? 1 : 0;
+            });
+          }
         }
       });
 
