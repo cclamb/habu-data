@@ -22,7 +22,12 @@
       </div>
       <hr>
       <footer>
-        &copy;2014 UNM Informatics 
+        <div id="copyright">
+        &copy;2014 UNM Informatics
+        </div>
+        <div id="style-control">
+        <button {{action switchStyle}}>Switch styling...</button>
+        </div>
       </footer>
     </script>
 
@@ -99,9 +104,15 @@
       StorageTests.IndexController = Ember.ArrayController.extend({
         actions: {
           load: function(id) { alert('load: ' + id); },
-          clear: function(id) { alert('clear: ' + id); }
+          clear: function(id) { alert('clear: ' + id); },
         }
 
+      });
+
+      StorageTests.ApplicationController = Ember.ObjectController.extend({
+        actions: {
+          switchStyle: function() { alert('switch style'); }
+        }
       });
 
     </script>
