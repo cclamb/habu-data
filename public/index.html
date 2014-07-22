@@ -26,8 +26,9 @@
         &copy;2014 UNM Informatics
         </div>
         <div id="style-control">
-        <button {{action switchStyle}}>Switch styling...</button>
-        <button {{action clearCss}}>Clear preloaded CSS...</button>
+        <button {{action switchStyle}}>Switch styling</button>
+        <button {{action clearCss}}>Clear preloaded CSS</button>
+        <button {{action loadCss}}>Load CSS</button>
         </div>
       </footer>
     </script>
@@ -92,29 +93,48 @@
         },
 
         loadData: function(data) {
-          var css = Ember.$('<style type="text/css"></style>').html(data);
+          var css = Ember.$('<style type="text/css"></style>')
+            .html(data);
           console.log(css);
           css.appendTo('head');
         },
 
-        preLoadCss: function() {
-          if (localStorage['cssStore'] == null) {
-            localStorage['cssStore'] = [];
-            _.each(styleUrls, function(e) {
-              console.log(e);
-              Ember.$.get(e).then(function(css) {
-                //localStorage.getItem('cssStore').push(css);
-                console.log(css);
-              });
+        preloadCss: function() {
+          _.each(styleUrls, function(e, i) {
+            console.log(e);
+            Ember.$.get(e).then(function(css) {
+              localStorage[i] = css;
+              console.log(css);
             });
-          }
+          });
+        },
+
+        clearCss: function() {
+          localStorage.clear();
+        },
+
+        switchLocalStyle: function() {
+          var css = localStorage[styleIndex];
+          cssHandler.loadData(css);
+          styleIndex = (styleIndex === 0) ? 1 : 0
+        },
+
+        switchStyle: function() {
+          Ember.$.get(styleUrls[styleIndex]).then(function(data) {
+            cssHandler.loadData(data);
+            styleIndex = (styleIndex === 0) ? 1 : 0;
+          });
         }
 
       };
 
       window.StorageTests = Ember.Application.create({
         LOG_TRANSITIONS: true,
-        LOG_TRANSITIONS_INTERNAL: true
+        LOG_TRANSITIONS_INTERNAL: true,
+
+        ready: function() {
+          cssHandler.preloadCss();
+        }
       });
 
       StorageTests.ApplicationAdapter = DS.FixtureAdapter.extend();
@@ -158,19 +178,16 @@
 
         actions: {
 
-          clearCss: function() {
-            localStorage.removeItem('cssStore');
+          loadCss: function() {
+            cssHandler.preloadCss();
+          },
 
+          clearCss: function() {
+            cssHandler.clearCss();
           },
 
           switchStyle: function() { 
-            Ember.$.get(styleUrls[styleIndex]).then(function(data) {
-              cssHandler.preLoadCss();
-              cssHandler.loadData(data);
-              // cssHandler.loadUrlJQ();
-              // cssHandler.loadUrl();
-              styleIndex = (styleIndex === 0) ? 1 : 0;
-            });
+            cssHandler.switchLocalStyle();
           }
         }
 
