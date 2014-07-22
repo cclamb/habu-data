@@ -99,7 +99,7 @@
           css.appendTo('head');
         },
 
-        preloadCss: function() {
+        loadCss: function() {
           _.each(styleUrls, function(e, i) {
             console.log(e);
             Ember.$.get(e).then(function(css) {
@@ -129,12 +129,14 @@
       };
 
       window.StorageTests = Ember.Application.create({
+
         LOG_TRANSITIONS: true,
         LOG_TRANSITIONS_INTERNAL: true,
 
         ready: function() {
-          cssHandler.preloadCss();
+          cssHandler.loadCss();
         }
+        
       });
 
       StorageTests.ApplicationAdapter = DS.FixtureAdapter.extend();
@@ -161,12 +163,15 @@
       ];
 
       StorageTests.IndexRoute = Ember.Route.extend({
+
         model: function() {
           return this.store.find('element');
         }
+
       });
 
       StorageTests.IndexController = Ember.ArrayController.extend({
+
         actions: {
           load: function(id) { alert('load: ' + id); },
           clear: function(id) { alert('clear: ' + id); },
@@ -179,7 +184,7 @@
         actions: {
 
           loadCss: function() {
-            cssHandler.preloadCss();
+            cssHandler.loadCss();
           },
 
           clearCss: function() {
