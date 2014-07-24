@@ -18,7 +18,9 @@
       </header>
 
       <section id="image-container">
-        <img src="user_images/cottonmouth.jpeg" alt="cottonmouth">
+        <img id="snake-img-tag" 
+          src="user_images/cottonmouth.jpeg" 
+          alt="cottonmouth">
       </section>
       <hr>
 
@@ -27,14 +29,55 @@
         &copy;2014 UNM Informatics
         </div>
         <div id="style-control">
-        <button {{action save}}>save sidewinder</button>
-        <button {{action load}}>load sidewinder</button>
-        <button {{action clear}}>clear sidewinder</button>
+        <button {{action save}}>save new snake</button>
+        <button {{action load}}>load saved snake</button>
+        <button {{action clear}}>clear saved snakes</button>
         </div>
       </footer>
     </script>
 
     <script>
+
+    var converter = function() {
+
+      var index = 1;
+          imageData = [
+            ['sidewinder', 'user_images/sidewinder.gif'],
+            ['cottonmouth', 'user_images/cottonmouth.jpeg']
+          ];
+
+      return {
+
+        getImageMetadata: function() {
+          index = (index === 1) ? 0 : 1;
+          return imageData[index];
+        },
+
+        getActiveImageMetadata: function() {
+          return imageData[index];
+        },
+
+        imageToB64: function(key, url) {
+          var canvas = document.createElement('CANVAS'),
+            ctx = canvas.getContext('2d'),
+            img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.onload = function(){
+            var dataURL;
+            canvas.height = img.naturalHeight;
+            canvas.width = img.naturalWidth;
+            ctx.drawImage(img, 0, 0);
+            dataURL = canvas.toDataURL("image/png");
+            console.log(dataURL);
+            localStorage[key] = dataURL;
+            canvas = null; 
+          };
+          img.src = url;
+        }
+
+      }
+
+    }();
 
     window.StorageTests = Ember.Application.create({
         LOG_TRANSITIONS: true,
@@ -46,15 +89,24 @@
         actions: {
 
           save: function() {
-            alert('save');
+            var imageDatum = converter.getImageMetadata();
+            converter.imageToB64(
+              imageDatum[0], 
+              imageDatum[1]
+            );
           },
 
           load: function() {
-            alert('load');
+            var imageDatum = converter.getActiveImageMetadata();
+            var b64 = localStorage[imageDatum[0]];
+            console.log(b64);
+            Ember
+              .$('#snake-img-tag')
+              .attr('src', b64);
           },
 
           clear: function() { 
-            alert('clear');
+            localStorage.clear();
           }
         }
 
